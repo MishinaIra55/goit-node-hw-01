@@ -4,9 +4,8 @@ const fs = require('fs');
 
 //Создай переменную contactsPath и запиши в нее путь к файлу contacts.json.
 // Для составления пути используй методы модуля path
-const contactsPath = path.basename('./db/contacts.json');
+const contactsPath = path.resolve('./db/contacts.json');
 
- console.log(contactsPath);
 
 //Чтение файла + //Запись файла
 // В функциях используй модуль fs и его методы readFile() и writeFile()
@@ -28,16 +27,16 @@ const contactsPath = path.basename('./db/contacts.json');
 // });
 
 function listContacts() {
-    fs.readFile('db/contacts.json', 'utf8', (error, contactsFile) => {
+    fs.readFile(contactsPath, 'utf8', (error, contactsFile) => {
         if (error) throw error; // ошибка чтения файла, если есть
         console.log(contactsFile);// содержимое файла
     })
 }
 
- // listContacts();
+
 
 function getContactById(contactId) {
-    fs.readFile('db/contacts.json', 'utf8', (error, contactsFile) => {
+    fs.readFile(contactsPath, 'utf8', (error, contactsFile) => {
         if (error) throw error; // ошибка чтения файла, если есть
         let data = JSON.parse(contactsFile);
         let result = {};
@@ -56,11 +55,11 @@ function getContactById(contactId) {
     })
 }
 
-// getContactById(5);
+
 
 
 function removeContact(contactId) {
-    fs.readFile('db/contacts.json', 'utf8', (error, contactsFile) => {
+    fs.readFile(contactsPath, 'utf8', (error, contactsFile) => {
         if (error) throw error; // ошибка чтения файла, если есть
         let data = JSON.parse(contactsFile);
 
@@ -77,10 +76,10 @@ function removeContact(contactId) {
         console.log(`Contact with id ${contactId} was deleted successfully`);
     })
 }
-// removeContact(2);
+
 
 function addContact(name, email, phone) {
-  fs.readFile('db/contacts.json', 'utf8',(error, contactsFile) => {
+  fs.readFile(contactsPath, 'utf8',(error, contactsFile) => {
       if (error) throw error; // ошибка чтения файла, если есть
       let data = JSON.parse(contactsFile);
 
@@ -100,10 +99,17 @@ function addContact(name, email, phone) {
           phone:phone
       });
 
-      fs.writeFile('db/contacts.json', JSON.stringify(data), (error) => {
+      fs.writeFile(contactsPath, JSON.stringify(data), (error) => {
           if (error) throw error;// ошибка чтения файла, если есть
       });
       console.log(`Contact was added successfully`);
   })
 }
-addContact('Iryna', 'gortenzia@gmail.com', '063-077-11-62');
+
+
+module.exports = {
+    listContacts,
+    getContactById,
+    removeContact,
+    addContact
+};

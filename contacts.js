@@ -34,7 +34,7 @@ function listContacts() {
     })
 }
 
- listContacts();
+ // listContacts();
 
 function getContactById(contactId) {
     fs.readFile('db/contacts.json', 'utf8', (error, contactsFile) => {
@@ -56,4 +56,28 @@ function getContactById(contactId) {
     })
 }
 
-getContactById(5);
+// getContactById(5);
+
+
+function removeContact(contactId) {
+    fs.readFile('db/contacts.json', 'utf8', (error, contactsFile) => {
+        if (error) throw error; // ошибка чтения файла, если есть
+        let data = JSON.parse(contactsFile);
+
+
+        const index = data.findIndex((item) => Number(item.id) === contactId);
+
+        if (index === -1) {
+            return console.log('Елемента с таким id не существует');
+        }
+
+        data.splice(index, 1);
+
+        fs.writeFile('db/contacts.json', JSON.stringify(data), (error) => {
+            if (error) throw error;// ошибка чтения файла, если есть
+        });
+        console.log(`Contact with id ${contactId} was deleted successfully`);
+    })
+}
+
+removeContact(2);

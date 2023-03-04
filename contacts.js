@@ -6,7 +6,7 @@ const fs = require('fs');
 // Для составления пути используй методы модуля path
 const contactsPath = path.basename('./db/contacts.json');
 
-// console.log(contactsPath);
+ console.log(contactsPath);
 
 //Чтение файла + //Запись файла
 // В функциях используй модуль fs и его методы readFile() и writeFile()
@@ -34,18 +34,26 @@ function listContacts() {
     })
 }
 
-// listContacts();
+ listContacts();
 
 function getContactById(contactId) {
     fs.readFile('db/contacts.json', 'utf8', (error, contactsFile) => {
         if (error) throw error; // ошибка чтения файла, если есть
         let data = JSON.parse(contactsFile);
+        let result = {};
         data.forEach((contact) => {
             if (contactId === Number(contact.id)) {
-                console.log(contact);
+                result = contact;
+                return true;
             }
         })
+
+        if (Object.keys(result).length) {
+            console.log(result);
+        } else {
+            console.log('Контакт с переданным id не существует');
+        }
     })
 }
 
-// getContactById(4);
+getContactById(5);

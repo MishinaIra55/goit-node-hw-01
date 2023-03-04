@@ -64,13 +64,11 @@ function removeContact(contactId) {
         if (error) throw error; // ошибка чтения файла, если есть
         let data = JSON.parse(contactsFile);
 
-
         const index = data.findIndex((item) => Number(item.id) === contactId);
 
         if (index === -1) {
             return console.log('Елемента с таким id не существует');
         }
-
         data.splice(index, 1);
 
         fs.writeFile('db/contacts.json', JSON.stringify(data), (error) => {
@@ -79,5 +77,33 @@ function removeContact(contactId) {
         console.log(`Contact with id ${contactId} was deleted successfully`);
     })
 }
+// removeContact(2);
 
-removeContact(2);
+function addContact(name, email, phone) {
+  fs.readFile('db/contacts.json', 'utf8',(error, contactsFile) => {
+      if (error) throw error; // ошибка чтения файла, если есть
+      let data = JSON.parse(contactsFile);
+
+      let maxId = 0;
+
+      data.forEach((element) => {
+          if (Number(element.id) > maxId) {
+              maxId = Number(element.id);
+          }
+      })
+      console.log(maxId);
+
+      data.push({
+          id: String(maxId + 1),
+          name: name,
+          email: email,
+          phone:phone
+      });
+
+      fs.writeFile('db/contacts.json', JSON.stringify(data), (error) => {
+          if (error) throw error;// ошибка чтения файла, если есть
+      });
+      console.log(`Contact was added successfully`);
+  })
+}
+addContact('Iryna', 'gortenzia@gmail.com', '063-077-11-62');

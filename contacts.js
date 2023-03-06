@@ -1,7 +1,7 @@
 //импорт модулей fs и path для работы с файловой системой
 const path = require('path');
 const fs = require('fs');
-const color = require('colors');
+ require('colors');
 
 //Создай переменную contactsPath и запиши в нее путь к файлу contacts.json.
 // Для составления пути используй методы модуля path
@@ -14,6 +14,7 @@ function listContacts() {
         console.table(JSON.parse(contactsFile));// содержимое файла
     })
 }
+
 
 function getContactById(contactId) {
     fs.readFile(contactsPath, 'utf8', (error, contactsFile) => {

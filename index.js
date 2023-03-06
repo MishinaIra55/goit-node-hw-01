@@ -1,21 +1,12 @@
 const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
+const {hideBin} = require('yargs/helpers');
 const argv = yargs(hideBin(process.argv)).argv;
 
 
-
 const {listContacts, getContactById, addContact, removeContact} = require("./contacts");
-// const moduleContacts = require("./contacts");
-//
-// moduleContacts.listContacts();
-// moduleContacts.getContactById(7);
-// moduleContacts.removeContact(5);
-// moduleContacts.addContact('Iryna', 'gortenzia@gmail.com', '063-077-11-62');
 
 
-
-
-function invokeAction({ action, id, name, email, phone }) {
+function invokeAction({action, id, name, email, phone}) {
     switch (action) {
         case "list":
             console.table(listContacts());
@@ -26,11 +17,11 @@ function invokeAction({ action, id, name, email, phone }) {
             break;
 
         case "add":
-            console.log(addContact(name,email,phone));
+            console.log(addContact(name, email, phone));
             break;
 
         case "remove":
-           console.log(removeContact(id));
+            console.log(removeContact(id));
             break;
 
         default:

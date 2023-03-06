@@ -8,11 +8,10 @@ const color = require('colors');
 const contactsPath = path.resolve('./db/contacts.json');
 
 
-
 function listContacts() {
     fs.readFile(contactsPath, 'utf8', (error, contactsFile) => {
         if (error) throw error; // ошибка чтения файла, если есть
-        console.log(contactsFile.green);// содержимое файла
+        console.table(JSON.parse(contactsFile));// содержимое файла
     })
 }
 
@@ -57,31 +56,31 @@ function removeContact(contactId) {
 
 
 function addContact(name, email, phone) {
-  fs.readFile(contactsPath, 'utf8',(error, contactsFile) => {
-      if (error) throw error; // ошибка чтения файла, если есть
-      let data = JSON.parse(contactsFile);
+    fs.readFile(contactsPath, 'utf8', (error, contactsFile) => {
+        if (error) throw error; // ошибка чтения файла, если есть
+        let data = JSON.parse(contactsFile);
 
-      let maxId = 0;
+        let maxId = 0;
 
-      data.forEach((element) => {
-          if (Number(element.id) > maxId) {
-              maxId = Number(element.id);
-          }
-      })
-      console.log(maxId);
+        data.forEach((element) => {
+            if (Number(element.id) > maxId) {
+                maxId = Number(element.id);
+            }
+        })
+        console.log(maxId);
 
-      data.push({
-          id: String(maxId + 1),
-          name: name,
-          email: email,
-          phone:phone
-      });
+        data.push({
+            id: String(maxId + 1),
+            name: name,
+            email: email,
+            phone: phone
+        });
 
-      fs.writeFile(contactsPath, JSON.stringify(data), (error) => {
-          if (error) throw error;// ошибка чтения файла, если есть
-      });
-      console.log(`Contact was added successfully`.yellow);
-  })
+        fs.writeFile(contactsPath, JSON.stringify(data), (error) => {
+            if (error) throw error;// ошибка чтения файла, если есть
+        });
+        console.log(`Contact was added successfully`.yellow);
+    })
 }
 
 
